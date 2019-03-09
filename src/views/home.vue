@@ -5,8 +5,6 @@
     </Content>
     <div class="bottom-fix">
       <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)"><span :class="activeIndex === index ?'active' : ''"><van-icon :name="item" size="1.6em" :color="activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
-      <!-- <div class="bottom-item"><van-icon name="more-o" size="1.6em" color="#bbd0e1"/></div> -->
-      <!-- <div class="bottom-item"><van-icon name="user-circle-o" size="1.6em" color="#bbd0e1"/></div> -->
     </div>
   </div>
 </template>
@@ -21,6 +19,11 @@ export default {
   methods: {
     changeTab(index) {
       this.activeIndex = index;
+      switch(index) {
+        case 0: this.$router.push({path: '/'});break;
+        case 1: this.$router.push({path: '/chat'});break;
+        case 2: this.$router.push({path: '/user'});break;
+      }
     }
   }
 };
@@ -28,12 +31,14 @@ export default {
 <style lang="less" scoped>
 .home-wrap {
   width: 100%;
+  overflow-y: auto;
   .bottom-fix {
     position: fixed;
     bottom: 0;
     width: 100%;
     display: flex;
     align-items: center;
+    background: #fff;
     .bottom-item {
       display: flex;
       justify-content: center;

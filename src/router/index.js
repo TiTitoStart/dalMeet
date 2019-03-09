@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import DataTemp from './modules/dataTemp';
+import DataTemp from './modules/home';
 
 let routes = [].concat(DataTemp);
 Vue.use(Router);
