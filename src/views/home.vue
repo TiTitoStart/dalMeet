@@ -4,7 +4,7 @@
       <router-view></router-view>
     </Content>
     <div class="bottom-fix">
-      <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)"><span :class="activeIndex === index ?'active' : ''"><van-icon :name="item" size="1.6em" :color="activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
+      <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)" :key="index"><span :class="activeIndex === index ?'active' : ''"><van-icon :name="item" size="1.6em" :color="activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
     </div>
   </div>
 </template>

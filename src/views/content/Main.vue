@@ -6,7 +6,7 @@
       <div class="user-icon"><van-icon name="contact" size="1.4em" color="#fff"></van-icon></div>
     </div>
     <div class="swiper-wrap">
-      <van-swipe :autoplay="3000" indicator-color="#fff">
+      <van-swipe indicator-color="#fff">
         <van-swipe-item v-for="(image, index) in topImages" :key="index">
           <img :src="image"/>
         </van-swipe-item>
@@ -14,9 +14,7 @@
     </div>
     <div class="content-wrap">
       <div class="banner">
-        <span class="item">男</span>
-        <span class="item">女</span>
-        <span class="item">我关注的</span>
+        <span class="item" v-for="(item, index) in tabArr" :key="index"  @click="changeTab(index)" :class="nowTab === index?'active':''">{{item}}</span>
       </div>
       <div class="conetnt">
         <div class="item">
@@ -29,6 +27,30 @@
           <div class="bottom">
             <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
+          </div>
+        </div>
+        <div class="item">
+          <img src="../../assets/images/user1.jpg"/>
+          <div class="people-info">
+            <div>Kyle, 21</div>
+            <div>Office Manage @shanghai</div>
+            <div>3 mutual friends</div>
+          </div>
+          <div class="bottom">
+            <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
+            <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
+          </div>
+        </div>
+        <div class="item">
+          <img src="../../assets/images/user1.jpg"/>
+          <div class="people-info">
+            <div>Kyle, 21</div>
+            <div>Office Manage @shanghai</div>
+            <div>3 mutual friends</div>
+          </div>
+          <div class="bottom">
+            <span><van-icon name="cross" size="1.6em" color="#f81616"/></span>
+            <span><van-icon name="like-o" size="1.6em" color="#f96d7c"/></span>
           </div>
         </div>
       </div>
@@ -45,8 +67,15 @@ export default {
     return {
       activeTab: 0,
       searchValue: '',
-      topImages: [img1, img2, img3, img4]
+      topImages: [img1, img2, img3, img4],
+      nowTab: 0,
+      tabArr: ['男', '女', '我关注的']
     };
+  },
+  methods: {
+    changeTab(index) {
+      this.nowTab = index;
+    }
   }
 };
 </script>
@@ -94,48 +123,81 @@ export default {
     }
   }
   .content-wrap {
+    margin-bottom: 90px;
     .banner {
       width: 94%;
-      height: 120px;
+      height: 84px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto;
       background: linear-gradient(to right, #fba469,#f74889);
       color: #fff;
-      border-radius: 0 0 100px 100px;
+      border-radius: 20px;
+      margin-top: 12px;
       .item {
         display: inline-block;
         width: 160px;
         text-align: center;
         padding-bottom: 12px;
-        border-bottom: 2px solid #fff;
         margin-right: 24px;
+        border-bottom: 4px;        
+      }
+      .active {
+        border-bottom: 4px solid #fff;
       }
     }
     .conetnt {
+      padding-top: 12px;
       width: 94%;
       margin: 0 auto;
       background: #fff;
       display: flex;
       align-items: center;
-      justify-content: center;
+      flex-wrap: wrap;
+      flex-direction: row;
       .item {
         display: inline-block;
         width: 45%;
         height: 500px;
         border-radius: 30px;
         background: #fff;
-        margin-right: 24px;
+        // margin-right: 24px;
         position: relative;
         overflow: hidden;
+        border: 2px solid #d1d1d1;
+        box-shadow: 4px 4px 12px 0px rgba(0, 0, 0, 0.45);
+        font-size: 17px;
+        color: #fff;
+        margin-bottom: 24px;
+        margin-left: 24px;
         img {
           width: 100%;
-          border-radius: 30px;
+          height: 100%;
         }
         .people-info {
+          width: 100%;
+          background: rgba(0, 0, 0, 0.45);
           position: absolute;
           bottom: 0;
+          padding: 12px;
+        }
+      }
+      .bottom {
+        position: absolute;
+        bottom: 12px;
+        right: 10px;
+        span {
+          // display: inline-block;
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background: #fff;
+          margin-right: 14px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          float: left;
         }
       }
     }
