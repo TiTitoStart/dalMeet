@@ -2,7 +2,7 @@
   <div class="main-page">
     <div class="title">
       <div class="icon"><img src="../../assets/images/title-icon.png"/></div>
-      <div class="search"><van-search placeholder="请输入搜索关键词" v-model="searchValue" background="none"/></div>
+      <div class="search" style="background: #fff;"><van-search placeholder="请输入搜索关键词" v-model="searchValue" background="none"/></div>
       <div class="user-icon"><van-icon name="contact" size="1.4em" color="#fff"></van-icon></div>
     </div>
     <div class="swiper-wrap">
@@ -24,10 +24,10 @@
             <div>Office Manage @shanghai</div>
             <div>3 mutual friends</div>
           </div>
-          <div class="bottom">
+          <!-- <div class="bottom">
             <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
-          </div>
+          </div> -->
         </div>
         <div class="item">
           <img src="../../assets/images/user1.jpg"/>
@@ -36,10 +36,10 @@
             <div>Office Manage @shanghai</div>
             <div>3 mutual friends</div>
           </div>
-          <div class="bottom">
+          <!-- <div class="bottom">
             <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
-          </div>
+          </div> -->
         </div>
         <div class="item">
           <img src="../../assets/images/user1.jpg"/>
@@ -48,10 +48,10 @@
             <div>Office Manage @shanghai</div>
             <div>3 mutual friends</div>
           </div>
-          <div class="bottom">
+          <!-- <div class="bottom">
             <span><van-icon name="cross" size="1.6em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.6em" color="#f96d7c"/></span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -171,16 +171,18 @@ export default {
         color: #fff;
         margin-bottom: 24px;
         margin-left: 24px;
+        overflow: hidden;
         img {
           width: 100%;
           height: 100%;
         }
         .people-info {
-          width: 100%;
+          width: 94%;
           background: rgba(0, 0, 0, 0.45);
           position: absolute;
           bottom: 0;
           padding: 12px;
+          border-radius: 0 0 30px 30px;
         }
       }
       .bottom {
