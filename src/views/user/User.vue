@@ -8,20 +8,43 @@
       <div class="login">退出登入</div>
     </div>
     <div class="user-content">
-      <ul>
-        <li>我的动态</li>
-        <li>我的关注</li>
-        <li>我的资料</li>
-        <span class="underline"></span>
+      <ul @click="changeTab">
+        <li data-index = '0'>我的动态</li>
+        <li data-index = '1'>我的关注</li>
+        <li data-index = '2'>我的资料</li>
+        <span class="underline" :class="activeTabClass"></span>
       </ul>
-      <component :is=""></component>
+      <!-- <component :is="MyCondition"></component> -->
+      <div class="component-wrap">
+        <MyCondition v-if="activeTabClass === 'target-1'"></MyCondition>
+        <MyFollow v-if="activeTabClass === 'target-2'"></MyFollow>
+        <MyInfo v-if="activeTabClass === 'target-3'"></MyInfo>
+      </div>
     </div>
   </div>  
 </template>
 <script>
+const MyCondition = r => require.ensure([], () => r(require('@/components/MyCondition'), 'MyCondition'));
+const MyFollow = r => require.ensure([], () => r(require('@/components/MyFollow'), 'MyFollow'));
+const MyInfo = r => require.ensure([], () => r(require('@/components/MyInfo'), 'MyInfo'));
 export default {
-  
-}
+  components: {
+    MyCondition,
+    MyFollow,
+    MyInfo
+  },
+  data() {
+    return {
+      activeTabList: ['target-1', 'target-2', 'target-3'],
+      activeTabClass: 'target-1'
+    };
+  },
+  methods: {
+    changeTab(e) {
+      this.activeTabClass = this.activeTabList[e.target.dataset.index];
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .user-page {
@@ -75,13 +98,25 @@ export default {
       }
       .underline {
         display: inline-block;
-        margin-left: 8%;
         width: 22%;
         height: 8px;
         background: linear-gradient(to left, #f74889, #fba469);
         border-radius: 30px;
       }
+      .target-1 {
+        margin-left: 8%;
+        transition: 0.5s;
+      }
+      .target-2 {
+        margin-left: 38%;
+        transition: 0.5s;
+      }
+      .target-3 {
+        margin-left: 68%;
+        transition: 0.5s;
+      }
     }
   }
 }
+
 </style>
