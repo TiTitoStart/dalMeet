@@ -12,6 +12,30 @@
         </div>
       </div>
     </div>
+    <div class="con-item">
+      <span class="dot"></span>
+      <span class="time">2019-03-11</span>
+      <div class="content">
+        <div class="word">今天说的什么好呢</div>
+        <div class="imgs">
+          <img src="../assets/images/user3.jpg"/>
+          <img src="../assets/images/user3.jpg"/>
+          <img src="../assets/images/user3.jpg"/>
+        </div>
+      </div>
+    </div>
+    <div class="con-item">
+      <span class="dot"></span>
+      <span class="time">2019-03-11</span>
+      <div class="content">
+        <div class="word">今天说的什么好呢</div>
+        <div class="imgs">
+          <img src="../assets/images/user3.jpg"/>
+          <img src="../assets/images/user3.jpg"/>
+          <img src="../assets/images/user3.jpg"/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>

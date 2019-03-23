@@ -117,6 +117,10 @@ export default {
       }
     }
   }
+  .component-wrap {
+    height: 70vh;
+    overflow-y: auto;
+  }
 }
 
 </style>

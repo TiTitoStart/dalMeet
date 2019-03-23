@@ -1,6 +1,6 @@
 <template>
   <div class="main-page">
-    <div class="title">
+    <!-- <div class="title">
       <div class="icon"><img src="../../assets/images/title-icon.png"/></div>
       <div class="search" style="background: #fff;"><van-search placeholder="请输入搜索关键词" v-model="searchValue" background="none"/></div>
       <div class="user-icon"><van-icon name="contact" size="1.4em" color="#fff"></van-icon></div>
@@ -24,10 +24,10 @@
             <div>Office Manage @shanghai</div>
             <div>3 mutual friends</div>
           </div>
-          <!-- <div class="bottom">
+          <div class="bottom">
             <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
-          </div> -->
+          </div>
         </div>
         <div class="item">
           <img src="../../assets/images/user1.jpg"/>
@@ -36,10 +36,10 @@
             <div>Office Manage @shanghai</div>
             <div>3 mutual friends</div>
           </div>
-          <!-- <div class="bottom">
+          <div class="bottom">
             <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
-          </div> -->
+          </div>
         </div>
         <div class="item">
           <img src="../../assets/images/user1.jpg"/>
@@ -48,11 +48,39 @@
             <div>Office Manage @shanghai</div>
             <div>3 mutual friends</div>
           </div>
-          <!-- <div class="bottom">
+          <div class="bottom">
             <span><van-icon name="cross" size="1.6em" color="#f81616"/></span>
             <span><van-icon name="like-o" size="1.6em" color="#f96d7c"/></span>
-          </div> -->
+          </div>
         </div>
+      </div>
+    </div> -->
+    <div class="title">
+      <span>Discover</span>
+    </div>
+    <div class="command">
+      <div class="command-item">
+        <div class="command-img">
+          <img src="../../assets/images/user4.png"/>
+        </div>
+        <div class="info">
+          <div class="name">Kyle, 21</div>
+          <div class="career">office manage @shanghai</div>
+        </div>
+      </div>
+      <div class="command-item command-small">
+        <div class="command-img">
+          <img src="../../assets/images/user4.png"/>
+        </div>
+        <div class="info">
+          <div class="name">Kyle, 21</div>
+          <div class="career">office manage @shanghai</div>
+        </div>
+      </div>
+    </div>
+    <div class="action-btn">
+      <div class="btn">
+        <img src="../../assets/images/btn.png"/>
       </div>
     </div>
   </div>  
@@ -81,129 +109,97 @@ export default {
 </script>
 <style lang="less" scoped>
 .main-page {
-  background: url('../../assets/images/bg.png');
-  background-size: 100%;
+  width: 100%;
+  background: #f6f9fb;
+  position: relative;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
   .title {
     width: 100%;
-    height: 128px;
-    background: linear-gradient(to right, #f74889, #fba469);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .icon {
-      margin-right: 24px;
-      img {
-        width: 64px;
-        height: 64px;
-      }
-    }
-    .search {
-      width: 72%;
-    }
-    .user-icon {
-      margin-left: 24px;
-    }
-  }
-  .swiper-wrap {
-    // height: 460px;
-    width: 94%;
-    margin: 14px auto;
-    box-shadow: 2px 2px 16px 4px #fff;
-    border-radius: 20px;
-    padding: 8px;
-    background: #fff;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    img {
-      width: 100%;
-      height: 360px;
-      border-radius: 20px;
-    }
-  }
-  .content-wrap {
-    margin-bottom: 90px;
-    .banner {
-      width: 94%;
-      height: 84px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      background: linear-gradient(to right, #fba469,#f74889);
+    height: 440px;
+    border-radius: 0 0 70% 70%;
+    background: linear-gradient(to left, #f74889, #fba469);
+    span {
+      display: inline-block;
+      font-size: 60px;
       color: #fff;
-      border-radius: 20px;
-      margin-top: 12px;
-      .item {
-        display: inline-block;
-        width: 160px;
-        text-align: center;
-        padding-bottom: 12px;
-        margin-right: 24px;
-        border-bottom: 4px;        
-      }
-      .active {
-        border-bottom: 4px solid #fff;
-      }
+      font-weight: bold;
+      padding: 60px 40px;
     }
-    .conetnt {
-      padding-top: 12px;
-      width: 94%;
-      margin: 0 auto;
+  }
+  .command {
+    width: 90%;
+    height: 1040px;
+    // overflow: hidden;
+    position: absolute;
+    top: -260px;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto;
+    position: relative;
+    .command-item {
       background: #fff;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      flex-direction: row;
-      .item {
-        display: inline-block;
-        width: 45%;
-        height: 500px;
-        border-radius: 30px;
-        background: #fff;
-        // margin-right: 24px;
-        position: relative;
-        overflow: hidden;
-        border: 2px solid #d1d1d1;
-        box-shadow: 4px 4px 12px 0px rgba(0, 0, 0, 0.45);
-        font-size: 17px;
-        color: #fff;
-        margin-bottom: 24px;
-        margin-left: 24px;
+      width: 100%;
+      height: 1040px;
+      border-radius: 30px;
+      padding-bottom: 24px;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      box-shadow: 0 0 20px #dcdee2;
+      .command-img {
+        max-height: 900px;
+        background: url('../../assets/images/bg.png');
+        background-size: 100%;
         overflow: hidden;
         img {
+          display: inline-block;
           width: 100%;
           height: 100%;
         }
-        .people-info {
-          width: 94%;
-          background: rgba(0, 0, 0, 0.45);
-          position: absolute;
-          bottom: 0;
-          padding: 12px;
-          border-radius: 0 0 30px 30px;
-        }
       }
-      .bottom {
-        position: absolute;
-        bottom: 12px;
-        right: 10px;
-        span {
-          // display: inline-block;
-          width: 34px;
-          height: 34px;
-          border-radius: 50%;
-          background: #fff;
-          margin-right: 14px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          float: left;
+
+      .info {
+        padding: 30px;
+        .name {
+          font-size: 40px;
+          font-weight: bold;
+        }
+        .career {
+          color: #808695;
+          font-size: 34px;
+          margin-top: 10px;
         }
       }
     }
-
+    .command-small {
+      width: 90%;
+      position: absolute;
+      top: 40px;
+      left: 0; 
+      right: 0; 
+      margin-left: auto; 
+      margin-right: auto;
+      z-index: 1;
+    }
+  }
+  .action-btn {
+    position: absolute;
+    position: relative;
+    bottom: 190px;
+    .btn {
+      width: 400px;
+      left: 0; 
+      right: 0; 
+      margin-left: auto; 
+      margin-right: auto;
+      img {
+        width: 100%;
+      }
+    }
   }
 }
 </style>
