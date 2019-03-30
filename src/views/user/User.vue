@@ -5,7 +5,7 @@
         <div class="user-img"><img src="../../assets/images/people2.png"/></div>
         <span class="user-name">Taylor</span>
       </div>
-      <div class="login">退出登入</div>
+      <div class="login" @click="loginOut">退出登入</div>
     </div>
     <div class="user-content">
       <ul @click="changeTab">
@@ -42,6 +42,9 @@ export default {
   methods: {
     changeTab(e) {
       this.activeTabClass = this.activeTabList[e.target.dataset.index];
+    },
+    loginOut() {
+      this.$router.push({path: '/login'});
     }
   }
 };

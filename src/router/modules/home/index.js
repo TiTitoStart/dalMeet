@@ -1,6 +1,7 @@
 const Home = r => require.ensure([], () => r(require('@/views/home')), 'home');
 const Main = r => require.ensure([], () => r(require('@/views/content/Main')), 'Main');
 const Chat = r => require.ensure([], () => r(require('@/views/chat/Chat')), 'Chat');
+const ChatDetails = r => require.ensure([], () => r(require('@/views/chat/ChatDetails')), 'ChatDetails');
 const User = r => require.ensure([], () => r(require('@/views/user/User')), 'User');
 
 export default [{
@@ -20,4 +21,8 @@ export default [{
     name: 'User',
     component: User
   }]
+},{
+  path: '/chat/ChatDetails',
+  name: 'ChatDetails',
+  component: ChatDetails
 }];

@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="content">
-      <div class="content-item">
+      <div class="content-item" @click="toChatDetail">
         <div class="chat-wrap">
           <div class="chat-img"><img src="../../assets/images/user-icon1.png"/></div>
           <span class="dot-pink">3</span>
@@ -48,7 +48,7 @@
       <div class="content-item">
         <div class="chat-wrap">
           <div class="chat-img"><img src="../../assets/images/user-icon1.png"/></div>
-          <span class="dot-pink">3</span>
+          <!-- <span class="dot-pink">3</span> -->
         </div>
         <div class="main">
           <div class="chatter">
@@ -67,6 +67,13 @@
 export default {
   data() {
     return {};
+  },
+  methods: {
+    toChatDetail() {
+      this.$router.push({
+        path: '/chat/ChatDetails'
+      });
+    }
   }
 };
 </script>

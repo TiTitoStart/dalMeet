@@ -9,9 +9,17 @@
         <span :class="activeTab === 1?'active-tab': ''" @click="changeTab(1)">注册</span>
       </div>
       <div class="form">
-        <div>
-          <div class="input-item"></div>
+        <div class="my-input">
+          <div class="input-item first">
+            <van-icon name="envelop-o" />
+            <input placeholder="Email Address"/>
+          </div>
+          <div class="input-item">
+            <van-icon name="closed-eye" />
+            <input type="password" placeholder="Password"/>
+          </div>
         </div>
+        <div class="submit-btn" @click="toHome">{{activeTab ? '注册' : '登入'}}</div>
       </div>
     </div>
   </div>
@@ -26,6 +34,11 @@ export default {
   methods: {
     changeTab(index) {
       this.activeTab = index;
+    },
+    toHome() {
+      this.$router.push({
+        path: '/'
+      });
     }
   }
 };
@@ -71,6 +84,52 @@ export default {
         background: #fff;
         color: #000;
         box-shadow: 0 0 10px #dcdee2;
+      }
+    }
+    .form {
+      margin-top: 48px;
+      padding: 48px;
+      background: #fff;
+      width: 90%;
+      border-radius: 10px;
+      height: 360px;
+      position: relative;
+      box-shadow: 6px 6px 4px rgba(0,21,41,.08);
+      .my-input {
+        padding: 24px;
+        .first {
+          margin-bottom: 30px;
+          border-bottom: 1px solid #d1d1d1;
+          padding-bottom: 30px;
+        }
+        .input-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          input {
+            border: none;
+            height: 100px;
+            width: 90%;
+            font-size: 30px;
+            color: #333;
+            font-weight: bold;
+            margin-left: 24px;
+          }
+        }
+      }
+      .submit-btn {
+        width: 80%;
+        height: 100px;
+        background: linear-gradient(to right, #f74889, #fba469);
+        color: #fff;
+        font-size: 50px;
+        text-align: center;
+        line-height: 100px;
+        border-radius: 10px;
+        position: absolute;
+        bottom: -50px;
+        left: 10%;
+        letter-spacing: 20px;
       }
     }
   }
