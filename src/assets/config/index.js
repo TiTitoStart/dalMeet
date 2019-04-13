@@ -10,7 +10,7 @@
 
 const options = {
   // 本地环境
-  localUrl: '//127.0.0.1:9021',
+  localUrl: '//127.0.0.1:4400',
 
   // 线上环境
   baseUrl: `${location.hostname}`

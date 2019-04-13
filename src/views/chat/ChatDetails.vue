@@ -2,7 +2,6 @@
   <div class="chatting">
       <ReturnBtn></ReturnBtn>
       <div class="content-top">
-        
         <span>Taylar</span>
       </div>
       <div class="chat">

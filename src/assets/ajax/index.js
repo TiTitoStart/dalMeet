@@ -5,6 +5,7 @@
  * @Last Modified time: 2018-11-08 16:34:26
  */
 import axios from 'axios';
+import { Toast } from 'vant';
 /**
  * 封装axios发送请求
  */
@@ -34,6 +35,7 @@ export default {
             resolve(res.result);
           } else {
             reject(res);
+            Toast.fail(res.result);
           }
         },
         err => {
@@ -57,6 +59,7 @@ export default {
             resolve(res.result);
           } else {
             reject(res);
+            Toast.fail(res.result);
           }
         },
         err => {

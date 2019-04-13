@@ -12,11 +12,11 @@
         <div class="my-input">
           <div class="input-item first">
             <van-icon name="envelop-o" />
-            <input placeholder="Email Address"/>
+            <input placeholder="Email Address or Phone Number" v-model="loginForm.phoneNumber"/>
           </div>
           <div class="input-item">
             <van-icon name="closed-eye" />
-            <input type="password" placeholder="Password"/>
+            <input type="password" placeholder="Password" v-model="loginForm.password"/>
           </div>
         </div>
         <div class="submit-btn" @click="toHome">{{activeTab ? '注册' : '登入'}}</div>
@@ -28,7 +28,11 @@
 export default {
   data() {
     return {
-      activeTab: 0
+      activeTab: 0,
+      loginForm: {
+        phoneNumber: '',
+        password: ''
+      }
     };
   },
   methods: {
@@ -36,9 +40,28 @@ export default {
       this.activeTab = index;
     },
     toHome() {
-      this.$router.push({
-        path: '/'
-      });
+      if(!this.$validation.isEmail(this.loginForm.phoneNumber) && !this.$validation.isCellPhone(this.loginForm.phoneNumber)) {
+        this.$toast.fail({
+          message: '账号格式不正确'
+        });
+        return;
+      }
+      if(!this.activeTab) {
+        this.$api.login(this.loginForm).then(res => {
+          this.$storage.set('userInfo', res);
+          this.$router.push({
+            path: '/'
+          });          
+        });
+      }
+      else {
+        this.$api.signup(this.loginForm).then(res => {
+          this.$storage.set('userInfo', res);
+          this.$router.push({
+            path: '/'
+          });          
+        });
+      }
     }
   }
 };

@@ -4,7 +4,7 @@
       <router-view></router-view>
     </Content>
     <div class="bottom-fix">
-      <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)" :key="index"><span :class="activeIndex === index ?'active' : ''"><van-icon :name="item" size="1.6em" :color="activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
+      <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)" :key="index"><span :class="activeIndex === index ?'active' : ''"><van-icon :name="item" size="3.4em" :color="activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
     </div>
   </div>
 </template>
@@ -12,13 +12,14 @@
 export default {
   data() {
     return {
-      activeIndex: 0,
+      activeIndex: this.$store.state.activeIndex,
       bottomIcon: ['wap-home', 'more-o', 'user-circle-o']
     };
   },
   methods: {
     changeTab(index) {
       this.activeIndex = index;
+      this.$store.commit('updateActiveIndex', index);
       switch(index) {
         case 0: this.$router.push({path: '/'});break;
         case 1: this.$router.push({path: '/chat'});break;

@@ -74,6 +74,11 @@ export default {
         path: '/chat/ChatDetails'
       });
     }
+  },
+  created() {
+    if(!this.$storage.get('userInfo', 'accessToken')) {
+      this.$router.push({path: '/login'})
+    }
   }
 };
 </script>

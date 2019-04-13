@@ -9,10 +9,12 @@ import interceptors from './assets/interceptors/index';
 import api from './assets/api/index';
 import * as validation from './assets/js/validation';
 import utils from './assets/js/utils';
-// import './assets/css/common.less';
+import storage from './assets/js/storage';
+import cache from './assets/js/cache';
 
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import './assets/css/common.less';
 
 import './assets/js/rem.js';
 
@@ -29,6 +31,8 @@ Vue.prototype.$api = api;
  */
 Vue.prototype.$validation = validation;
 Vue.prototype.$utils = utils;
+Vue.prototype.$storage = storage;
+Vue.prototype.$cache = cache;
 
 /**
  *路由跟http请求拦截控制

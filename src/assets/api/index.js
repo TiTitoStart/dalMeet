@@ -8,14 +8,10 @@ import ajax from './../ajax/index';
 import { baseUrl } from './../config/index';
 
 export default {
-  dataTemp: {
-    //各类测点的字段数量表查询
-    pointCountList: () => {
-      return ajax.get(`${baseUrl}/datacenter/point/count/list`);
-    },
-    //测点内容修改
-    pointTypeUpdate: data => {
-      return ajax.post(`${baseUrl}/datacenter/point/type/update`, data);
-    },
-  }
+  login: data => {
+    return ajax.post(`${baseUrl}/api/login`, data);
+  },
+  signup: data => {
+    return ajax.post(`${baseUrl}/api/signup`, data);
+  },
 };

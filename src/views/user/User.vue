@@ -2,8 +2,8 @@
   <div class="user-page">
     <div class="user-top">
       <div class="user">
-        <div class="user-img"><img src="../../assets/images/people2.png"/></div>
-        <span class="user-name">Taylor</span>
+        <div class="user-img"><img :src="userInfo.avatar"/></div>
+        <span class="user-name">{{userInfo.nickname}}</span>
       </div>
       <div class="login" @click="loginOut">退出登入</div>
     </div>
@@ -36,7 +36,8 @@ export default {
   data() {
     return {
       activeTabList: ['target-1', 'target-2', 'target-3'],
-      activeTabClass: 'target-1'
+      activeTabClass: 'target-1',
+      userInfo: this.$storage.get('userInfo')
     };
   },
   methods: {
@@ -45,6 +46,11 @@ export default {
     },
     loginOut() {
       this.$router.push({path: '/login'});
+    }
+  },
+  created() {
+    if(!this.$storage.get('userInfo', 'accessToken')) {
+      this.$router.push({path: '/login'})
     }
   }
 };

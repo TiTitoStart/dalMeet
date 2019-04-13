@@ -2,6 +2,15 @@
   <div class="my-condition">
     <div class="con-item">
       <span class="dot"></span>
+      <span class="time">今天</span>
+      <div class="content">
+        <div class="new" @click="toShare">
+          <van-icon name="photograph" size="3.4em"/>
+        </div>
+      </div>
+    </div>
+    <div class="con-item">
+      <span class="dot"></span>
       <span class="time">2019-03-11</span>
       <div class="content">
         <div class="word">今天说的什么好呢</div>
@@ -40,7 +49,16 @@
 </template>
 <script>
 export default {
-  
+  data() {
+    return {
+
+    };
+  },
+  methods: {
+    toShare() {
+      this.$router.push({path: '/share'});
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -79,6 +97,17 @@ export default {
         border: 10px solid #fff;
         border-radius: 10px;
         margin-right: 24px;
+      }
+    }
+    .content {
+      .new {
+        width: 120px;
+        height: 120px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
       }
     }
   }
