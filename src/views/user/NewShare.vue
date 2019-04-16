@@ -15,7 +15,7 @@
       </van-cell-group>
       <div class="imgs"><FileLoader></FileLoader></div>
     </div>
-    <div class="bottom-btn">
+    <div class="bottom-btn" @click="toShare">
       发表
     </div>
   </div>  
@@ -27,14 +27,30 @@ export default {
   components: {ReturnBtn, FileLoader},
   data() {
     return {
-      shareForm: {
-        content: '',
-        imgs_url: []
-      },
       autoSize: {
         maxHeight: 100,
         minHeight: 60
+      },
+      shareForm: {
+        content: '',
+        imgs_url: []
       }
+    };
+  },
+  methods: {
+    toShare() {
+      if(!this.shareForm.content) {
+        this.$toast.fail({
+          message: '内容不能为空'
+        });
+        return;
+      }
+      this.$api.share.add(this.shareForm).then(res => {
+        this.$toast.success({
+          message: '分享成功'
+        });
+        this.$router.push({path: '/user'});
+      });
     }
   }
 };

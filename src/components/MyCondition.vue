@@ -9,7 +9,19 @@
         </div>
       </div>
     </div>
-    <div class="con-item">
+    <div class="con-item" v-for="(item, index) in shareList" @click="toDetail">
+      <span class="dot"></span>
+      <span class="time">{{ item.meta ? $utils.formatDate(item.meta.createAt, 'yyyy-MM-dd') : '2019-04-16'}}</span>
+      <div class="content">
+        <div class="word">{{item.content}}</div>
+        <div class="imgs">
+          <img src="../assets/images/user3.jpg"/>
+          <img src="../assets/images/user3.jpg"/>
+          <img src="../assets/images/user3.jpg"/>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="con-item">
       <span class="dot"></span>
       <span class="time">2019-03-11</span>
       <div class="content">
@@ -32,32 +44,31 @@
           <img src="../assets/images/user3.jpg"/>
         </div>
       </div>
-    </div>
-    <div class="con-item">
-      <span class="dot"></span>
-      <span class="time">2019-03-11</span>
-      <div class="content">
-        <div class="word">今天说的什么好呢</div>
-        <div class="imgs">
-          <img src="../assets/images/user3.jpg"/>
-          <img src="../assets/images/user3.jpg"/>
-          <img src="../assets/images/user3.jpg"/>
-        </div>
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-
+      shareList: []
     };
   },
   methods: {
     toShare() {
       this.$router.push({path: '/share'});
+    },
+    toDetail() {
+      this.$router.push({path: '/ShareDetail'});
+    },
+    getShareList() {
+      this.$api.share.get().then(res => {
+         this.shareList = res.reverse();
+      });
     }
+  },
+  mounted() {
+    this.getShareList();
   }
 };
 </script>

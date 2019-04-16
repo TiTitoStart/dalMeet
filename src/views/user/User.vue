@@ -5,7 +5,7 @@
         <div class="user-img"><img :src="userInfo.avatar"/></div>
         <span class="user-name">{{userInfo.nickname}}</span>
       </div>
-      <div class="login" @click="loginOut">退出登入</div>
+      <!-- <div class="login" @click="loginOut">退出登入</div> -->
     </div>
     <div class="user-content">
       <ul @click="changeTab">
