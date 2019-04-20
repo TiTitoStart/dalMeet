@@ -1,65 +1,10 @@
 <template>
   <div class="main-page">
-    <!-- <div class="title">
-      <div class="icon"><img src="../../assets/images/title-icon.png"/></div>
-      <div class="search" style="background: #fff;"><van-search placeholder="请输入搜索关键词" v-model="searchValue" background="none"/></div>
-      <div class="user-icon"><van-icon name="contact" size="1.4em" color="#fff"></van-icon></div>
-    </div>
-    <div class="swiper-wrap">
-      <van-swipe indicator-color="#fff">
-        <van-swipe-item v-for="(image, index) in topImages" :key="index">
-          <img :src="image"/>
-        </van-swipe-item>
-      </van-swipe>
-    </div>
-    <div class="content-wrap">
-      <div class="banner">
-        <span class="item" v-for="(item, index) in tabArr" :key="index"  @click="changeTab(index)" :class="nowTab === index?'active':''">{{item}}</span>
-      </div>
-      <div class="conetnt">
-        <div class="item">
-          <img src="../../assets/images/user1.jpg"/>
-          <div class="people-info">
-            <div>Kyle, 21</div>
-            <div>Office Manage @shanghai</div>
-            <div>3 mutual friends</div>
-          </div>
-          <div class="bottom">
-            <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
-            <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="../../assets/images/user1.jpg"/>
-          <div class="people-info">
-            <div>Kyle, 21</div>
-            <div>Office Manage @shanghai</div>
-            <div>3 mutual friends</div>
-          </div>
-          <div class="bottom">
-            <span><van-icon name="cross" size="1.4em" color="#f81616"/></span>
-            <span><van-icon name="like-o" size="1.4em" color="#f96d7c"/></span>
-          </div>
-        </div>
-        <div class="item">
-          <img src="../../assets/images/user1.jpg"/>
-          <div class="people-info">
-            <div>Kyle, 21</div>
-            <div>Office Manage @shanghai</div>
-            <div>3 mutual friends</div>
-          </div>
-          <div class="bottom">
-            <span><van-icon name="cross" size="1.6em" color="#f81616"/></span>
-            <span><van-icon name="like-o" size="1.6em" color="#f96d7c"/></span>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="title">
       <span>Discover</span>
     </div>
     <div class="command">
-      <div class="command-item">
+      <div class="command-item" @touchmove="changeNext" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
         <div class="command-img">
           <img src="../../assets/images/user4.png"/>
         </div>
@@ -69,8 +14,10 @@
         </div>
       </div>
       <div class="command-item command-small">
+      </div>
+      <div class="command-item" @touchmove="changeBefore" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
         <div class="command-img">
-          <img src="../../assets/images/user4.png"/>
+          <img src="../../assets/images/user3.jpg"/>
         </div>
         <div class="info">
           <div class="name">Kyle, 21</div>
@@ -82,27 +29,41 @@
       <div class="btn">
         <img src="../../assets/images/btn.png"/>
       </div>
+      <div class="my-btn">
+        <div class="delete" @click="deleteNow"></div>
+        <div class="like"></div>
+      </div>
     </div>
   </div>  
 </template>
 <script>
-const img1 = require('../../assets/images/banner1.jpeg');
-const img2 = require('../../assets/images/banner2.jpg');
-const img3 = require('../../assets/images/banner3.jpg');
-const img4 = require('../../assets/images/banner14.jpg');
 export default {
   data() {
     return {
-      activeTab: 0,
-      searchValue: '',
-      topImages: [img1, img2, img3, img4],
-      nowTab: 0,
-      tabArr: ['男', '女', '我关注的']
+      isMove: false,
+      flag: false
     };
   },
   methods: {
     changeTab(index) {
       this.nowTab = index;
+    },
+    changeNext() {
+      this.isMove = true;
+      // setTimeout(() => {
+      //   this.isMove = false;
+      // }, 1000)
+    },
+    changeBefore() {
+      this.isMove = false;
+    },
+    deleteNow() {
+      if(this.isMove) {
+        this.changeBefore();
+      }
+      else {
+        this.changeNext();
+      }
     }
   }
 };
@@ -148,8 +109,9 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 2;
       box-shadow: 0 0 20px #dcdee2;
+      z-index: 2;
+      position: relative;
       .command-img {
         max-height: 900px;
         background: url('../../assets/images/bg.png');
@@ -200,8 +162,120 @@ export default {
         width: 100%;
       }
     }
+    .my-btn {
+      width: 400px;
+      left: 0; 
+      right: 0; 
+      margin-left: auto; 
+      margin-right: auto;
+      position: absolute;
+      top: -160px;
+      position: relative;
+      .like {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        display: inline-block;
+        border-radius: 50%;
+        margin-left: 96px;
+      }
+      .delete {
+        width: 120px;
+        height: 120px;
+        display: inline-block;
+        border-radius: 50%;
+        margin-left: 40px;
+      }
+    }
   }
 }
+.animation-hide {
+  animation-name: toHide;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+.animation-show {
+  animation-name: toShow;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  // animation-delay: 0.1s;
+}
+.animation-hide {
+  animation-name: toHide;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+.animation-show {
+  animation-name: toShow;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  // animation-delay: 0.1s;
+}
+@keyframes toHide {
+  0% {
+    opacity: 1;
+    bottom: 0;
+  }
+  25% {
+    opacity: 1;
+    // bottom: -33.5px;
+    transform: scale(0.95,0.95) rotate(10deg);
+    transform-origin: 40% 40%;
+  }
+  50% {
+    opacity: 1;
+    // bottom: -67px;
+    transform: scale(0.9,0.9) rotate(30deg);
+    transform-origin: 40% 40%;
+  }
+  75% {
+    opacity: 0.45;
+    // bottom: -100.5px;
+    transform: scale(0.95,0.95) rotate(50deg);
+    transform-origin: 40% 40%;
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    // bottom: -134px;
+    transform: scale(1,1);
+    z-index: 1;
+  }
+}
+@keyframes toShow {
+  0% {
+    transform: scale(0.9,0.9);
+    transform-origin: 40% 40%;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.45;
+    transform: scale(0.925,0.925);
+    transform-origin: 40% 40%;
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.95,0.95);
+    transform-origin: 40% 40%;
+  }
+  75% {
+    opacity: 0.85;
+    transform: scale(0.975,0.975);
+    transform-origin: 40% 40%;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1,1);
+    transform-origin: 40% 40%;
+    z-index: 2;
+  }
+}
+
+
 </style>
 <style lang="less">
 .van-search .van-cell {

@@ -8,6 +8,9 @@ export default {
   signup: data => {
     return ajax.post(`${baseUrl}/api/signup`, data);
   },
+  userUpdate: data => {
+    return ajax.post(`${baseUrl}/api/users/update`, data);
+  },
   share: {
     get: data => {
       return ajax.post(`${baseUrl}/api/moment/get`, data);
