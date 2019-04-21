@@ -4,7 +4,7 @@
       <router-view></router-view>
     </Content>
     <div class="bottom-fix">
-      <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)" :key="index"><span :class="$store.state.activeIndex === index ?'active' : ''"><van-icon :name="item" size="3.4em" :color="$store.state.activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
+      <div class="bottom-item" v-for="(item, index) in bottomIcon" @click="changeTab(index)" :key="index"><span :class="$store.state.activeIndex === index ?'active' : ''"><van-icon :name="item" size="2em" :color="$store.state.activeIndex === index ?'#fff' : '#bbd0e1'"/></span></div>
     </div>
   </div>
 </template>
@@ -48,8 +48,8 @@ export default {
       padding: 24px;
       span {
         display: inline-block;
-        width: 1.6em;
-        height: 1.6em;
+        width: 2em;
+        height: 2em;
         border-radius: 50%;
         display: flex;
         justify-content: center;

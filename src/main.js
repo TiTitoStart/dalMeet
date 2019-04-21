@@ -11,6 +11,7 @@ import * as validation from './assets/js/validation';
 import utils from './assets/js/utils';
 import storage from './assets/js/storage';
 import cache from './assets/js/cache';
+import {loadScript} from './assets/js/consoleLoader';
 
 import Vant from 'vant';
 import 'vant/lib/index.css';
@@ -44,3 +45,10 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
+
+loadScript(
+  'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js',
+   () => {
+  // eslint-disable-next-line
+  new VConsole()
+   })

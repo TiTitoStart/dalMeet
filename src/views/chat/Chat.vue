@@ -108,7 +108,7 @@ export default {
       letter-spacing: 4px;
     }
     .swiper-right {
-      height: 160px;
+      height: 180px;
       overflow-x: scroll;
       margin-top: 12px;
       display: flex;
