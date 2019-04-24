@@ -1,7 +1,7 @@
 <template>
   <div class="loader-wrap">
     <van-uploader :after-read="onRead" multiple>
-      <van-icon name="photograph" size="3.4em"/>
+      <van-icon name="photograph" size="1.6rem"/>
     </van-uploader>
   </div>
 </template>

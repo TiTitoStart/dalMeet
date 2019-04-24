@@ -68,6 +68,16 @@ export default {
   data() {
     return {};
   },
+  sockets: {
+  //这里是监听connect事件
+    connect: function () {
+     console.log('连接');
+    }, 
+    // 方法名与服务端的保持一致
+    getVal: function(data) {
+      console.log('online', data);
+    }
+  },
   methods: {
     toChatDetail() {
       this.$router.push({
@@ -79,6 +89,10 @@ export default {
     if(!this.$storage.get('userInfo', 'accessToken')) {
       this.$router.push({path: '/login'})
     }
+  },
+  mounted() {
+     this.$socket.emit('connect');
+     this.$socket.emit('online', this.$storage.get('userInfo'));
   }
 };
 </script>

@@ -5,7 +5,7 @@
       <span class="time">今天</span>
       <div class="content">
         <div class="new" @click="toShare">
-          <van-icon name="photograph" size="3.4em"/>
+          <van-icon name="photograph" size="1.6em"/>
         </div>
       </div>
     </div>

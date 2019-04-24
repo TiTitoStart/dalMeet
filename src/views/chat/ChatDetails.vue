@@ -19,7 +19,7 @@
       </div>
       <div class="content-bottom">
         <input placeholder="输入回复..." class="border-color: red" v-model="testContent"/>
-        <div class="replay-btn">发送</div>
+        <div class="replay-btn"  @click="sendMessage">发送</div>
       </div>
     </div>
 </template>
@@ -44,7 +44,22 @@ export default {
       testContent: ''
     }
   },
+  sockets: {
+  //这里是监听connect事件
+    connect: function () {
+     console.log('连接会话');
+    }, 
+    message: function(data) {
+      console.log('message', data);
+    }
+  },
   methods: {
+    sendMessage() {
+      this.$socket.emit('sayTo', {
+        fid: '5cba8f332235fa0e04f9f2cb',
+        content: this.testContent
+      });
+    }
   },
   created() {
     let that = this;
@@ -58,6 +73,8 @@ export default {
   },
   mounted() {
     document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+    this.$socket.emit('connect');
+    
   }
 };
 </script>
