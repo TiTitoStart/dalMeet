@@ -11,6 +11,12 @@ export default {
   userUpdate: data => {
     return ajax.post(`${baseUrl}/api/users/update`, data);
   },
+  userQuery: data => {
+    return ajax.post(`${baseUrl}/api/users/get`, data);
+  },
+  addLike: data => {
+    return ajax.post(`${baseUrl}/api/users/addlike`, data);
+  },
   share: {
     get: data => {
       return ajax.post(`${baseUrl}/api/moment/get`, data);

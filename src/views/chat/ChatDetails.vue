@@ -6,14 +6,15 @@
       </div>
       <div class="chat">
         <div class="chat-item" v-for="(item, index) in content">
-          <div class="time" v-if="item.timestamp">{{$utils.formatDate((parseInt(item.timestamp)),'yyyy-MM-dd hh:mm:ss')}}</div>
-          <div class="user">
+          <div class="user" v-if="item.type === 'send'">
+            <div class="time" v-if="item.send_time">{{item.send_time}}</div>
             <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
-            <div class="chat-content bg-green tri-dot-right">{{item.question}}</div>
+            <div class="chat-content bg-green tri-dot-right">{{item.message}}</div>
           </div>
-          <div class="robot" v-if="item.answer_content">
+          <div class="robot" v-if="item.message && item.type ==='receive'">
+            <div class="time" v-if="item.send_time">{{item.send_time}}</div>
             <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
-            <div class="chat-content tri-dot-left">{{item.answer_content}}</div>
+            <div class="chat-content tri-dot-left">{{item.message}}</div>
           </div>
         </div>
       </div>
@@ -37,8 +38,11 @@ export default {
   data() {
     return {
       content: [{
-        question: 'what?',
-        answer_content: 'That is a test'
+        type: 'send',
+        message: 'this is a test'
+      },{
+        type: 'receive',
+        message: 'test'
       }],
       activeAnswerIndex: '',
       testContent: ''
@@ -49,16 +53,30 @@ export default {
     connect: function () {
      console.log('连接会话');
     }, 
+    //接收消息
     message: function(data) {
       console.log('message', data);
+      this.content.push({
+        type: 'receive',
+        message: data.content,
+        time: data.send_time
+      })
     }
   },
   methods: {
     sendMessage() {
       this.$socket.emit('sayTo', {
+        uid: this.$storage.get('userInfo')._id,
         fid: '5cba8f332235fa0e04f9f2cb',
-        content: this.testContent
+        content: this.testContent,
+        send_time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
+      this.content.push({
+        type: 'send',
+        message: this.testContent,
+        time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+      });
+      this.testContent = '';
     }
   },
   created() {
@@ -74,7 +92,6 @@ export default {
   mounted() {
     document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
     this.$socket.emit('connect');
-    
   }
 };
 </script>

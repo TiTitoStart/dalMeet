@@ -4,24 +4,26 @@
       <span>Discover</span>
     </div>
     <div class="command">
-      <div class="command-item" @touchmove="changeNext" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
+      <div class="command-item" @touchend="changeNext" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
         <div class="command-img">
-          <img src="../../assets/images/user4.png"/>
+          <img v-if="!firstCommand.avatar" src="../../assets/images/user4.png"/>
+          <img v-else :src="firstCommand.avatar" />
         </div>
         <div class="info">
-          <div class="name">Kyle, 21</div>
-          <div class="career">office manage @shanghai</div>
+          <div class="name">{{firstCommand.nickname}}, 21</div>
+          <div class="career">{{firstCommand.career}} @shanghai</div>
         </div>
       </div>
       <div class="command-item command-small">
       </div>
-      <div class="command-item" @touchmove="changeBefore" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
+      <div class="command-item" @touchend="changeBefore" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
         <div class="command-img">
-          <img src="../../assets/images/user3.jpg"/>
+          <img v-if="!secondCommand.avatar" src="../../assets/images/user3.jpg"/>
+          <img v-else :src="secondCommand.avatar" />
         </div>
         <div class="info">
-          <div class="name">Kyle, 21</div>
-          <div class="career">office manage @shanghai</div>
+          <div class="name">{{secondCommand.nickname}}, 21</div>
+          <div class="career">{{secondCommand.career}} @shanghai</div>
         </div>
       </div>
     </div>
@@ -31,7 +33,7 @@
       </div>
       <div class="my-btn">
         <div class="delete" @click="deleteNow"></div>
-        <div class="like"></div>
+        <div class="like" @click="addLike"></div>
       </div>
     </div>
   </div>  
@@ -41,7 +43,11 @@ export default {
   data() {
     return {
       isMove: false,
-      flag: false
+      flag: false,
+      userList: '',
+      firstCommand: '',
+      secondCommand: '',
+      curIndex: 0
     };
   },
   methods: {
@@ -50,21 +56,52 @@ export default {
     },
     changeNext() {
       this.isMove = true;
-      // setTimeout(() => {
-      //   this.isMove = false;
-      // }, 1000)
+      if(this.curIndex > (this.userList.length - 2)) {
+        this.curIndex = 0;
+      }
+      else {
+        this.curIndex += 1; 
+      }
+      this.secondCommand = this.userList[this.curIndex];
     },
     changeBefore() {
       this.isMove = false;
+      if(this.curIndex > (this.userList.length -2)) {
+        this.curIndex = 0;
+      }
+      else {
+        this.curIndex += 1; 
+      }
+      this.firstCommand = this.userList[this.curIndex];
     },
     deleteNow() {
+      console.log(this.curIndex);
+      this.userList.splice(this.curIndex, 1);
       if(this.isMove) {
         this.changeBefore();
       }
       else {
         this.changeNext();
       }
+    },
+    getAllUsers() {
+      this.$api.userQuery().then((res) => {
+        this.curIndex = 0;
+        this.userList = res;
+        this.firstCommand = res[this.curIndex];
+        console.log('this.firstCommand', this.firstCommand);
+      });
+    },
+    addLike() {
+      this.$api.addLike({
+        like: this.firstCommand._id
+      }).then(res => {
+        
+      });
     }
+  },
+  mounted() {
+    this.getAllUsers();
   }
 };
 </script>
