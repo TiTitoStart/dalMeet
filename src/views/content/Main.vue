@@ -150,6 +150,7 @@ export default {
       z-index: 2;
       position: relative;
       .command-img {
+        min-height: 900px;
         max-height: 900px;
         background: url('../../assets/images/bg.png');
         background-size: 100%;
