@@ -4,28 +4,13 @@
     <div class="search-area">
       <van-search placeholder="Search" background="#e9ecee"/>
     </div>
-    <div class="online-users">
-      <div class="o-title">ONLINE USERS</div>
+    <div class="online-users" v-if="onlineData.length">
+      <!-- <div class="o-title">我的 好友</div> -->
       <div class="swiper-right">
-        <div class="online-item">
-          <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
+        <div class="online-item" v-for="(item, index) in onlineData" :key="index" @click="toChatDetail(item)">
+          <div class="user-img"><img :src="item.avatar"/></div>
           <span class="dot-green"></span>
-          <div class="name">Taylor</div>
-        </div>
-        <div class="online-item">
-          <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
-          <span class="dot-green"></span>
-          <div class="name">Taylor</div>
-        </div>
-        <div class="online-item">
-          <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
-          <span class="dot-green"></span>
-          <div class="name">Taylor</div>
-        </div>
-        <div class="online-item">
-          <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
-          <span class="dot-green"></span>
-          <div class="name">Taylor</div>
+          <div class="name">{{item.nickname}}</div>
         </div>
       </div>
     </div>
@@ -66,7 +51,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      onlineData: []
+    };
   },
   sockets: {
   //这里是监听connect事件
@@ -76,12 +63,70 @@ export default {
     // 方法名与服务端的保持一致
     getVal: function(data) {
       console.log('online', data);
+    },
+    //接收消息
+    message: function(data) {
+      console.log('message', data)
+      if(this.onlineData && this.$utils.arrayObjIndexOf(this.onlineData, data.uid, '_id') === -1) {
+        this.$api.userGet({
+          id: data.uid
+        }).then(res => {
+          this.onlineData.push(res)
+        })
+      }
+      let chatData = this.$storage.get('chatData')
+      if(chatData) {
+        console.log('chatData', chatData)
+        let index = this.$utils.arrayObjIndexOf(chatData, 'fid', data.uid)
+        console.log('index', index)
+        if(index !== -1) {
+          chatData[index].data.push(
+            {
+              type: 'receive',
+              message: data.content,
+              time: data.send_time
+            }
+          )
+        }
+        else {
+          chatData.push({
+            fid: data.uid,
+            data: [{
+              type: 'receive',
+              message: data.content,
+              time: data.send_time
+            }]
+          })
+        }
+        this.$storage.set('chatData', chatData)
+      }
+      else {
+        this.$storage.set('chatData', [{
+          fid: data.uid,
+          data: [{
+              type: 'receive',
+              message: data.content,
+              time: data.send_time
+            }]
+        }])
+      }
     }
   },
   methods: {
-    toChatDetail() {
+    toChatDetail(item) {
       this.$router.push({
-        path: '/chat/ChatDetails'
+        name: 'ChatDetails',
+        params: {
+          id: item._id,
+          nickname: item.nickname
+        }
+      });
+    },
+    getLikeList() {
+      this.$api.getLike({
+        id: this.$storage.get('userInfo', '_id')
+      }).then(res => {
+        this.onlineData = res;
       });
     }
   },
@@ -93,6 +138,8 @@ export default {
   mounted() {
      this.$socket.emit('connect');
      this.$socket.emit('online', this.$storage.get('userInfo'));
+     this.getLikeList()
+    //  this.$storage.set('chatData', '')
   }
 };
 </script>
@@ -143,9 +190,16 @@ export default {
           }
         }
         .name {
+          text-align: center;
+          width: 100%;
           font-size: 30px;
           color: #333;
           font-weight: 600;
+          overflow:hidden; 
+          text-overflow:ellipsis;
+          display:-webkit-box; 
+          -webkit-box-orient:vertical;
+          -webkit-line-clamp:1; 
         }
         .dot-green {
           width: 20px;

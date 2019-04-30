@@ -72,5 +72,22 @@ export default {
       }
     }
     return -1;
-  }
+  },
+
+   /**
+   * 返回在数组对象中的索引位置
+   * @param {数组} arr
+   * @param {属性} attr
+   * @param {值} val
+   */
+  arrayObjIndexOf(arr,attr,val) {
+    let i = arr.length;
+    while (i--) {
+      if (arr[i][attr] == val) {
+        return i;
+      }
+    }
+    return -1;
+  },
+
 };

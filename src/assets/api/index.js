@@ -12,10 +12,16 @@ export default {
     return ajax.post(`${baseUrl}/api/users/update`, data);
   },
   userQuery: data => {
+    return ajax.post(`${baseUrl}/api/users/query`, data);
+  },
+  userGet: data => {
     return ajax.post(`${baseUrl}/api/users/get`, data);
   },
   addLike: data => {
     return ajax.post(`${baseUrl}/api/users/addlike`, data);
+  },
+  getLike: data => {
+    return ajax.post(`${baseUrl}/api/users/getlike`, data);
   },
   share: {
     get: data => {

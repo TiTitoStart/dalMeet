@@ -2,7 +2,7 @@
   <div class="chatting">
       <ReturnBtn></ReturnBtn>
       <div class="content-top">
-        <span>Taylar</span>
+        <span>{{friend.nickname}}</span>
       </div>
       <div class="chat">
         <div class="chat-item" v-for="(item, index) in content">
@@ -45,7 +45,11 @@ export default {
         message: 'test'
       }],
       activeAnswerIndex: '',
-      testContent: ''
+      testContent: '',
+      friend: {
+        id: '',
+        nickname: ''
+      }
     }
   },
   sockets: {
@@ -61,13 +65,39 @@ export default {
         message: data.content,
         time: data.send_time
       })
+      if(this.$storage.get('chatData')) {
+        let chatData = this.$storage.get('chatData')
+        let index = this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id)
+        if(index !== -1) {
+          chatData[index].data.push(
+            {
+              type: 'receive',
+              message: data.content,
+              time: data.send_time
+            }
+          )
+        }
+        else {
+          chatData.push({
+            fid: this.friend.id,
+            data: this.content
+          })
+        }
+        this.$storage.set('chatData', chatData)
+      }
+      else {
+        this.$storage.set('chatData', [{
+          fid: this.friend.id,
+          data: this.content
+        }])
+      }
     }
   },
   methods: {
     sendMessage() {
       this.$socket.emit('sayTo', {
         uid: this.$storage.get('userInfo')._id,
-        fid: '5cba8f332235fa0e04f9f2cb',
+        fid: this.friend.id,
         content: this.testContent,
         send_time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
@@ -90,6 +120,21 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route.params)
+    console.log('chatData', this.$storage.get('chatData'))
+    if(!this.$storage.get('chatData')) {
+      this.$storage.set('chatData', [])
+    }
+    this.friend = {
+      id: this.$route.params.id,
+      nickname: this.$route.params.nickname,
+      chatIndex: this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id) || -1
+    }
+    console.log('chatData', this.$storage.get('chatData'))
+    console.log('chatIndex', this.friend.chatIndex, this.$route.params.id)
+    if(this.friend.chatIndex !== -1) {
+      this.content = this.$storage.get('chatData')[this.friend.chatIndex].data
+    }
     document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
     this.$socket.emit('connect');
   }
