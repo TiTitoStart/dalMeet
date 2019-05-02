@@ -5,14 +5,14 @@
         <span>{{friend.nickname}}</span>
       </div>
       <div class="chat">
-        <div class="chat-item" v-for="(item, index) in content">
+        <div class="chat-item" v-for="(item, index) in content" :key="index">
           <div class="user" v-if="item.type === 'send'">
-            <div class="time" v-if="item.send_time">{{item.send_time}}</div>
-            <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
+            <!-- <span class="time" v-if="item.time">{{item.time}}</span> -->
+            <div class="user-img"><img :src="$storage.get('userInfo', 'avatar')"/></div>
             <div class="chat-content bg-green tri-dot-right">{{item.message}}</div>
           </div>
           <div class="robot" v-if="item.message && item.type ==='receive'">
-            <div class="time" v-if="item.send_time">{{item.send_time}}</div>
+            <!-- <span class="time" v-if="item.time">{{item.time}}</span> -->
             <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
             <div class="chat-content tri-dot-left">{{item.message}}</div>
           </div>
@@ -37,18 +37,13 @@ export default {
   },
   data() {
     return {
-      content: [{
-        type: 'send',
-        message: 'this is a test'
-      },{
-        type: 'receive',
-        message: 'test'
-      }],
+      content: [],
       activeAnswerIndex: '',
       testContent: '',
       friend: {
         id: '',
-        nickname: ''
+        nickname: '',
+        chatIndex: ''
       }
     }
   },
@@ -91,22 +86,35 @@ export default {
           data: this.content
         }])
       }
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
     }
   },
   methods: {
     sendMessage() {
+      this.content.push({
+        type: 'send',
+        message: this.testContent,
+        time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+      });
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+      let chatData = this.$storage.get('chatData');
+      console.log('this.friend.chatIndex', this.friend.chatIndex)
+      chatData[this.friend.chatIndex].data.push(
+        {
+          type: 'send',
+          message: this.testContent,
+          time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+        }
+      );
+      this.$storage.set('chatData', chatData);
       this.$socket.emit('sayTo', {
         uid: this.$storage.get('userInfo')._id,
         fid: this.friend.id,
         content: this.testContent,
         send_time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
-      this.content.push({
-        type: 'send',
-        message: this.testContent,
-        time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
-      });
       this.testContent = '';
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
     }
   },
   created() {
@@ -120,7 +128,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.params)
     console.log('chatData', this.$storage.get('chatData'))
     if(!this.$storage.get('chatData')) {
       this.$storage.set('chatData', [])
@@ -128,11 +135,11 @@ export default {
     this.friend = {
       id: this.$route.params.id,
       nickname: this.$route.params.nickname,
-      chatIndex: this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id) || -1
+      // chatIndex: this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id)
     }
-    console.log('chatData', this.$storage.get('chatData'))
-    console.log('chatIndex', this.friend.chatIndex, this.$route.params.id)
-    if(this.friend.chatIndex !== -1) {
+    this.friend.chatIndex = this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id)
+    console.log('chatIndex', this.friend)
+    if( this.friend.chatIndex !== -1 ) {
       this.content = this.$storage.get('chatData')[this.friend.chatIndex].data
     }
     document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
@@ -187,7 +194,9 @@ export default {
   .chat {
     width: 100%;
     margin-top: 48px;
+    max-height: 86vh;
     min-height: 86vh;
+    overflow: auto;
     .chat-item {
       width: 100%;
       .time {

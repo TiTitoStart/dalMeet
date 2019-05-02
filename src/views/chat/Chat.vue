@@ -15,33 +15,18 @@
       </div>
     </div>
     <div class="content">
-      <div class="content-item" @click="toChatDetail">
+      <div class="content-item" v-for="(item, index) in chatList" :key="index" @click="toChatDetail">
         <div class="chat-wrap">
-          <div class="chat-img"><img src="../../assets/images/user-icon1.png"/></div>
+          <div class="chat-img"><img :src="item.avatar"/></div>
           <span class="dot-pink">3</span>
         </div>
         <div class="main">
           <div class="chatter">
-            <span>Taylor</span>
+            <span>{{item.nickname}}</span>
             <span class="time">1 hour</span>
           </div>
           <div class="last-chat">
-            hello!
-          </div>
-        </div>
-      </div>
-      <div class="content-item">
-        <div class="chat-wrap">
-          <div class="chat-img"><img src="../../assets/images/user-icon1.png"/></div>
-          <!-- <span class="dot-pink">3</span> -->
-        </div>
-        <div class="main">
-          <div class="chatter">
-            <span>Taylor</span>
-            <span class="time">1 hour</span>
-          </div>
-          <div class="last-chat">
-            hello!
+            {{item.content}}
           </div>
         </div>
       </div>
@@ -52,7 +37,8 @@
 export default {
   data() {
     return {
-      onlineData: []
+      onlineData: [],
+      chatList: []
     };
   },
   sockets: {
@@ -60,10 +46,6 @@ export default {
     connect: function () {
      console.log('连接');
     }, 
-    // 方法名与服务端的保持一致
-    getVal: function(data) {
-      console.log('online', data);
-    },
     //接收消息
     message: function(data) {
       console.log('message', data)
@@ -71,7 +53,14 @@ export default {
         this.$api.userGet({
           id: data.uid
         }).then(res => {
-          this.onlineData.push(res)
+          if(this.$utils.arrayObjIndexOf(this.onlineData, '_id', data.uid) == -1) {
+            this.onlineData.push(res)
+            let chatListItem = Object.assign(res, {
+              content: data.content,
+              send_time: data.send_time
+            })
+            this.chatList.push(chatListItem)
+          }
         })
       }
       let chatData = this.$storage.get('chatData')
@@ -110,6 +99,7 @@ export default {
             }]
         }])
       }
+      console.log('this.$storage.get(chatData)', this.$storage.get('chatData'))
     }
   },
   methods: {
