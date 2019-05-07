@@ -7,7 +7,7 @@
           <img :src="userInfo.avatar" />
         </div>
         <div class="right" v-else>
-          <img :src="userInfo.avatar" />
+          <FileLoader @getImgsUrl="getImgsUrl" type="single"></FileLoader>
         </div>
       </div>
       <div class="item">
@@ -90,7 +90,9 @@
   </div>
 </template>
 <script>
+const FileLoader = r => require.ensure([], () => r(require('@/components/FileLoader'), 'FileLoader'));
 export default {
+  components: { FileLoader},
   data() {
     return {
       type: '',
@@ -100,7 +102,7 @@ export default {
       userForm: {
         nickname: '',
         age: '',
-        avatar: 'https://dpic.tiankong.com/gk/if/QJ6630287935.jpg?x-oss-process=style/670ws'
+        avatar: ''
       },
       test: ''
     };
@@ -108,7 +110,6 @@ export default {
   methods: {
     changeFunc(type) {
       if(type === 'modify') {
-        this.userForm.avatar = 'https://dpic.tiankong.com/gk/if/QJ6630287935.jpg?x-oss-process=style/670ws';
         this.$api.userUpdate(this.userForm).then((res) => {
           this.userInfo = res;
           this.$storage.set('userInfo', res);
@@ -133,6 +134,9 @@ export default {
     },
     getGender(value) {
       this.userForm.gender = value;
+    },
+    getImgsUrl(data) {
+      this.userForm.avatar = data[0]
     }
   },
   mounted() {

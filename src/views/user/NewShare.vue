@@ -13,7 +13,7 @@
           :autosize="autoSize"
         />
       </van-cell-group>
-      <div class="imgs"><FileLoader></FileLoader></div>
+      <div class="imgs"><FileLoader @getImgsUrl="getImgsUrl"></FileLoader></div>
     </div>
     <div class="bottom-btn" @click="toShare">
       发表
@@ -51,6 +51,10 @@ export default {
         });
         this.$router.push({path: '/user'});
       });
+    },
+    getImgsUrl(data) {
+      console.log('data', data)
+      this.shareForm.imgs_url = data;
     }
   }
 };

@@ -32,6 +32,9 @@ export default {
     },
     delete: data => {
       return ajax.post(`${baseUrl}/api/moment/delete`, data);
+    },
+    getLike: data => {
+      return ajax.post(`${baseUrl}/api/moment/getLike `, data);
     }
   }
 };
