@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="content">
-      <div class="content-item" v-for="(item, index) in $storage.get('chatList')" :key="item.content" @click="toChatDetail">
+      <div v-if="item" class="content-item" v-for="(item, index) in chatList" :key="item.content" @click="toChatDetail(item)">
         <div class="chat-wrap">
           <div class="chat-img"><img :src="item.avatar"/></div>
           <span class="dot-pink">3</span>
@@ -66,6 +66,9 @@ export default {
           let index = this.$utils.arrayObjIndexOf(this.onlineData, '_id', data.uid)
           if(index == -1) {
             this.onlineData.push(res)
+          }
+          if(!this.chatList[index]) {
+            
             let chatListItem ={
               _id: res._id,
               nickname: res.nickname,
@@ -73,10 +76,13 @@ export default {
               content: data.content,
               send_time: data.send_time
             }
-            this.chatList = Object.assign({}, this.chatList, chatListItem)
+            this.chatList[index] = Object.assign({}, this.chatList, chatListItem)
             // this.chatList.push(chatListItem)
           }
           else {
+            console.log('index', this.chatList[index])
+            this.chatList[index].nickname = res.nickname;
+            this.chatList[index].avatar= res.avatar;
             this.chatList[index].content = data.content;
             this.chatList[index].send_time = data.send_time
           }
@@ -84,9 +90,17 @@ export default {
           this.$storage.set('chatList', this.chatList)
         })
       }
+      else {
+        let index = this.$utils.arrayObjIndexOf(this.onlineData, '_id', data.uid);
+        this.chatList[index].nickname = this.onlineData[index].nickname;
+        this.chatList[index].avatar = this.onlineData[index].avatar;
+        this.chatList[index].content = data.content;
+        this.chatList[index].send_time = data.send_time
+        console.log('this.chatList', this.chatList)
+        this.$storage.set('chatList', this.chatList)
+      }
       let chatData = this.$storage.get('chatData')
       if(chatData) {
-        console.log('chatData', chatData)
         let index = this.$utils.arrayObjIndexOf(chatData, 'fid', data.uid)
         if(index !== -1) {
           chatData[index].data.push(
@@ -119,7 +133,6 @@ export default {
             }]
         }])
       }
-      // console.log('this.$storage.get(chatData)', this.$storage.get('chatData'))
     }
   },
   methods: {
@@ -128,7 +141,8 @@ export default {
         name: 'ChatDetails',
         params: {
           id: item._id,
-          nickname: item.nickname
+          nickname: item.nickname,
+          avatar: item.avatar
         }
       });
     },

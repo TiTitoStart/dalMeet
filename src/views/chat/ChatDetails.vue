@@ -13,7 +13,7 @@
           </div>
           <div class="robot" v-if="item.message && item.type ==='receive'">
             <!-- <span class="time" v-if="item.time">{{item.time}}</span> -->
-            <div class="user-img"><img src="../../assets/images/user-icon1.png"/></div>
+            <div class="user-img"><img :src="friend.avatar"/></div>
             <div class="chat-content tri-dot-left">{{item.message}}</div>
           </div>
         </div>
@@ -75,6 +75,7 @@ export default {
         else {
           chatData.push({
             fid: this.friend.id,
+            avatar: this.friend.avatar,
             data: this.content
           })
         }
@@ -83,6 +84,7 @@ export default {
       else {
         this.$storage.set('chatData', [{
           fid: this.friend.id,
+          avatar: this.friend.avatar,
           data: this.content
         }])
       }
@@ -135,6 +137,7 @@ export default {
     this.friend = {
       id: this.$route.params.id,
       nickname: this.$route.params.nickname,
+      avatar: this.$route.params.avatar
       // chatIndex: this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id)
     }
     this.friend.chatIndex = this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id)

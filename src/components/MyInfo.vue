@@ -4,7 +4,7 @@
       <div class="item">
         <span>头像</span>
         <div class="right" v-if="type !== 'modify'">
-          <img :src="userInfo.avatar" />
+          <img :src="userInfo.avatar" style="border-radius:50%;"/>
         </div>
         <div class="right" v-else>
           <FileLoader @getImgsUrl="getImgsUrl" type="single"></FileLoader>
