@@ -49,6 +49,12 @@ export default {
       if(!this.activeTab) {
         this.$api.login(this.loginForm).then(res => {
           this.$storage.set('userInfo', res);
+          if(this.$storage.get('chatList')) {
+            this.$storage.set('chatList', '')
+          }
+          if(this.$storage.get('chatData')) {
+            this.$storage.set('chatData', '')
+          }
           this.$router.push({
             path: '/'
           });          

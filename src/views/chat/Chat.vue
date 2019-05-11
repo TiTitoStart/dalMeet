@@ -96,7 +96,6 @@ export default {
         this.chatList[index].avatar = this.onlineData[index].avatar;
         this.chatList[index].content = data.content;
         this.chatList[index].send_time = data.send_time
-        console.log('this.chatList', this.chatList)
         this.$storage.set('chatList', this.chatList)
       }
       let chatData = this.$storage.get('chatData')
@@ -137,6 +136,16 @@ export default {
   },
   methods: {
     toChatDetail(item) {
+      let index = this.$utils.arrayObjIndexOf(this.chatList, '_id', item._id);
+      console.log('this.chatList', index)
+      if(index == -1) {
+        this.chatList.push({
+          _id: item._id,
+          nickname: item.nickname,
+          avatar: item.avatar,
+        })
+        this.$storage.set('chatList', this.chatList)
+      }
       this.$router.push({
         name: 'ChatDetails',
         params: {

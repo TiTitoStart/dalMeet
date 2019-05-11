@@ -1,8 +1,8 @@
 <template>
   <div class="my-follow">
-    <div class="follow-item" v-for="item in followList">
+    <div class="follow-item" v-for="item in followList" @click="toDetail(item)">
       <div class="title">
-        <img :src="item.avatar"/>
+        <img :src="item.avatar" @click.stop="toFollow(item)"/>
         <div class="info">
           <span class="follow-name">{{item.nickname}}</span>
           <span class="state-time">34分钟之前</span>
@@ -29,6 +29,17 @@ export default {
       this.$api.share.getLike().then(res => {
         this.followList = res.reverse()
       })
+    },
+    toDetail(item) {
+      this.$router.push({path: '/ShareDetail',
+        query: {
+          content: JSON.stringify(item),
+          tabIndex: '1'
+        }});
+    },
+    toFollow(item) {
+      console.log(item)
+      this.$router.push({path: '/follow',query: {id: item.user_id}})
     }
   },
   mounted() {
@@ -38,6 +49,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .my-follow {
+  background: #f6f9fb;
   .follow-item {
     margin: 30px 0;
     background: #fff;

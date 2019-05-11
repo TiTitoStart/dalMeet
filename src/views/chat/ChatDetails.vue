@@ -61,7 +61,7 @@ export default {
         time: data.send_time
       })
       if(this.$storage.get('chatData')) {
-        let chatData = this.$storage.get('chatData')
+        let chatData = this.$storage.get('chatData') || []
         let index = this.$utils.arrayObjIndexOf(this.$storage.get('chatData'), 'fid', this.friend.id)
         if(index !== -1) {
           chatData[index].data.push(
@@ -99,15 +99,24 @@ export default {
         time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
       document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
-      let chatData = this.$storage.get('chatData');
+      let chatData = this.$storage.get('chatData') || [];
       console.log('this.friend.chatIndex', this.friend.chatIndex)
-      chatData[this.friend.chatIndex].data.push(
-        {
-          type: 'send',
-          message: this.testContent,
-          time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
-        }
-      );
+      if(this.friend.chatIndex == -1) {
+        chatData.push({
+          fid: this.friend.id,
+          avatar: this.friend.avatar,
+          data: this.content
+        })
+      }
+      else {
+        chatData[this.friend.chatIndex].data.push(
+          {
+            type: 'send',
+            message: this.testContent,
+            time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
+          }
+        );
+      }
       this.$storage.set('chatData', chatData);
       this.$socket.emit('sayTo', {
         uid: this.$storage.get('userInfo')._id,
@@ -116,7 +125,9 @@ export default {
         send_time: this.$utils.formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
       });
       this.testContent = '';
-      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+      this.$nextTick(() => {
+        document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+      });
     }
   },
   created() {
@@ -145,7 +156,9 @@ export default {
     if( this.friend.chatIndex !== -1 ) {
       this.content = this.$storage.get('chatData')[this.friend.chatIndex].data
     }
-    document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+    this.$nextTick(() => {
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+    });
     this.$socket.emit('connect');
   }
 };

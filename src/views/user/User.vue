@@ -52,6 +52,9 @@ export default {
     if(!this.$storage.get('userInfo', 'accessToken')) {
       this.$router.push({path: '/login'})
     }
+  },
+  mounted() {
+    this.activeTabClass = this.activeTabList[this.$route.query.tabIndex || 0];
   }
 };
 </script>

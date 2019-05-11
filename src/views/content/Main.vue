@@ -4,7 +4,7 @@
       <span>Discover</span>
     </div>
     <div class="command">
-      <div class="command-item" @touchend="changeNext" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
+      <div class="command-item" @click="toFollow(firstCommand)" @touchend="changeNext" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
         <div class="command-img">
           <img v-if="!firstCommand.avatar" src="../../assets/images/user4.png"/>
           <img v-else :src="firstCommand.avatar" />
@@ -16,7 +16,7 @@
       </div>
       <div class="command-item command-small">
       </div>
-      <div class="command-item" @touchend="changeBefore" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
+      <div class="command-item" @click="toFollow(secondCommand)" @touchend="changeBefore" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
         <div class="command-img">
           <img v-if="!secondCommand.avatar" src="../../assets/images/user3.jpg"/>
           <img v-else :src="secondCommand.avatar" />
@@ -98,6 +98,9 @@ export default {
       }).then(res => {
         
       });
+    },
+    toFollow(item) {
+      this.$router.push({path: '/follow',query: {id: item._id}})
     }
   },
   mounted() {

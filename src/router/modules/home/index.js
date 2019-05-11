@@ -5,6 +5,7 @@ const ChatDetails = r => require.ensure([], () => r(require('@/views/chat/ChatDe
 const User = r => require.ensure([], () => r(require('@/views/user/User')), 'User');
 const Share = r => require.ensure([], () => r(require('@/views/user/NewShare')), 'Share');
 const ShareDetail = r => require.ensure([], () => r(require('@/views/user/ShareDetail')), 'ShareDetail');
+const Follow = r => require.ensure([], () => r(require('@/views/user/Follow')), 'Follow');
 
 export default [{
   path: '',
@@ -44,4 +45,8 @@ export default [{
   path: '/ShareDetail',
   name: 'ShareDetail',
   component: ShareDetail
+},{
+  path: '/Follow',
+  name: 'Follow',
+  component: Follow
 }];

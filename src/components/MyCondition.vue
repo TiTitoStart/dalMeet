@@ -9,7 +9,7 @@
         </div>
       </div>
     </div>
-    <div class="con-item" v-for="(item, index) in shareList" @click="toDetail">
+    <div class="con-item" v-for="(item, index) in shareList" @click="toDetail(item)">
       <span class="dot"></span>
       <span class="time">{{ item.meta ? $utils.formatDate(item.meta.createAt, 'yyyy-MM-dd') : '2019-04-16'}}</span>
       <div class="content">
@@ -30,10 +30,16 @@ export default {
   },
   methods: {
     toShare() {
-      this.$router.push({path: '/share'});
+      this.$router.push({
+        path: '/share'
+      });
     },
-    toDetail() {
-      this.$router.push({path: '/ShareDetail'});
+    toDetail(item) {
+      this.$router.push({path: '/ShareDetail',
+        query: {
+          content: JSON.stringify(item),
+          tabIndex: '0'
+        }});
     },
     getShareList() {
       this.$api.share.get().then(res => {
