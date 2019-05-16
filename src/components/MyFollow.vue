@@ -39,7 +39,7 @@ export default {
     },
     toFollow(item) {
       console.log(item)
-      this.$router.push({path: '/follow',query: {id: item.user_id}})
+      this.$router.push({path: '/follow',query: {id: item.user_id }})
     }
   },
   mounted() {
