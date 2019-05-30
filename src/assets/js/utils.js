@@ -89,5 +89,34 @@ export default {
     }
     return -1;
   },
+  
 
+  /**
+   * 判断左滑右滑
+   * @param {当前x方向的值} currentX
+   * @param {当前y方向的值} currentY
+   * @param {上一个x方向的值} lastX
+   * @param {上一个y方向的值} lastY
+   */
+  judgeDirection (currentX, currentY, lastX, lastY) {
+    let tx = currentX - lastX
+    let ty = currentY - lastY
+    let arrow = ""
+  
+    if (Math.abs(tx) > Math.abs(ty)) {
+      //左右方向滑动
+      if (tx < 30)
+      arrow = "left"
+      else if (tx > 30)
+      arrow = "right"
+    }
+    else {
+      //上下方向滑动
+      if (ty < 30)
+      arrow = "up"
+      else if (ty > 30)
+      arrow = "down"
+    }
+    return arrow;
+  }
 };

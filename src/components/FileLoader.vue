@@ -33,11 +33,12 @@ export default {
   methods: {
     onRead(file) {
       this.isSucess = false
+      console.log('file', file)
       axios({
         method: 'post',
-        url: 'http://192.168.100.58:8081/care/file/upload',
+        url: 'http://cs-bot.aqara.cn:80/care/file/upload',
         data: {
-          file_name: file.file.name,
+          file_name: 'img' + Date.parse (new Date()),
           file_base64: file.content.split(',')[1]
         },
       }).then(res => {

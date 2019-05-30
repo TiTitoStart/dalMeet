@@ -1,6 +1,6 @@
 <template>
   <div class="my-follow">
-    <div class="follow-item" v-for="item in followList" @click="toDetail(item)">
+    <div class="follow-item" v-for="(item, index) in followList" @click="toDetail(item)" :key="index">
       <div class="title">
         <img :src="item.avatar" @click.stop="toFollow(item)"/>
         <div class="info">
@@ -10,7 +10,7 @@
       </div>
       <div class="content">
         <div class="word">{{item.content}}</div>
-        <div class="imgs" v-for="itemImg in item.imgs_url">
+        <div class="imgs" v-for="(itemImg, index) in item.imgs_url" :key="index">
           <img :src="itemImg"/>
         </div>
       </div>
@@ -19,6 +19,7 @@
 </template>
 <script>
 export default {
+  props: ['id'],
   data() {
     return {
       followList: ''
@@ -30,6 +31,13 @@ export default {
         this.followList = res.reverse()
       })
     },
+    getConditionList() {
+      this.$api.share.getById({
+        id: this.id
+      }).then(res => {
+        this.followList = res.reverse()
+      })
+    },
     toDetail(item) {
       this.$router.push({path: '/ShareDetail',
         query: {
@@ -38,12 +46,17 @@ export default {
         }});
     },
     toFollow(item) {
-      console.log(item)
       this.$router.push({path: '/follow',query: {id: item.user_id }})
     }
   },
   mounted() {
-    this.getFollowList();
+    console.log('this.id', this.id)
+    if(this.id) {
+      this.getConditionList();
+    }
+    else {
+      this.getFollowList();
+    }
   }
 };
 </script>

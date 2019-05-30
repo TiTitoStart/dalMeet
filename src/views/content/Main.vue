@@ -4,7 +4,7 @@
       <span>Discover</span>
     </div>
     <div class="command">
-      <div class="command-item" @click="toFollow(firstCommand)" @touchend="changeNext" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
+      <div class="command-item" @click="toFollow(firstCommand)" @touchend="handleTouchMove($event, 0)" :class="isMove ? ['animation-hide', 'command-small'] : ['animation-show']">
         <div class="command-img">
           <img v-if="!firstCommand.avatar" src="../../assets/images/user4.png"/>
           <img v-else :src="firstCommand.avatar" />
@@ -16,7 +16,7 @@
       </div>
       <div class="command-item command-small">
       </div>
-      <div class="command-item" @click="toFollow(secondCommand)" @touchend="changeBefore" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
+      <div class="command-item"  @click="toFollow(secondCommand)" @touchend="handleTouchMove($event, 1)" :class="isMove ? 'animation-show' : ['command-small', 'animation-hide']">
         <div class="command-img">
           <img v-if="!secondCommand.avatar" src="../../assets/images/user3.jpg"/>
           <img v-else :src="secondCommand.avatar" />
@@ -47,8 +47,10 @@ export default {
       userList: '',
       firstCommand: '',
       secondCommand: '',
-      curIndex: 0
-    };
+      curIndex: 0,
+      lastX: '',
+      lastY: ''
+      };
   },
   methods: {
     changeTab(index) {
@@ -92,15 +94,42 @@ export default {
         console.log('this.firstCommand', this.firstCommand);
       });
     },
-    addLike() {
+    addLike(type) {
       this.$api.addLike({
         like: this.firstCommand._id
       }).then(res => {
-        
+        if(type) {
+          this.changeBefore();
+        }
+        else {
+          this.changeNext();
+        }
+        this.$toast('关注成功');
       });
     },
     toFollow(item) {
+      console.log('item._id', item);
       this.$router.push({path: '/follow',query: {id: item._id}})
+    },
+    handleTouchMove(e, type) {
+      let currentX = e.changedTouches[0].pageX;
+      let currentY = e.changedTouches[0].pageY;
+      let arrow = this.$utils.judgeDirection(currentX, currentY, this.lastX, this.lastY);
+      switch(arrow) {
+        case 'left': 
+        if(type) {
+          this.changeBefore();
+        }
+        else {
+          this.changeNext();
+        }
+        break;
+        case 'right': 
+        this.addLike(type);
+        break;
+      }
+      this.lastX = currentX;
+      this.lastY = currentY;
     }
   },
   mounted() {

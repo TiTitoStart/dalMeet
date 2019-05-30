@@ -27,6 +27,9 @@ export default {
     get: data => {
       return ajax.post(`${baseUrl}/api/moment/get`, data);
     },
+    getById: data => {
+      return ajax.post(`${baseUrl}/api/moment/getById`, data);
+    },
     add: data => {
       return ajax.post(`${baseUrl}/api/moment/add`, data);
     },

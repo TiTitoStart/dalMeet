@@ -12,7 +12,7 @@
     <div class="follow-content">
        <div class="title">动态</div>
        <div>
-         <MyFollow :id="follow._id"></MyFollow>
+         <MyFollow :id="id"></MyFollow>
        </div>
     </div>
   </div>

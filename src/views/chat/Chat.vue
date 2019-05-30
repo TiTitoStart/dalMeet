@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="content">
-      <div v-if="item" class="content-item" v-for="(item, index) in chatList" :key="item.content" @click="toChatDetail(item)">
+      <div class="content-item" v-for="(item, index) in chatList" :key="index" @click="toChatDetail(item)">
         <div class="chat-wrap">
           <div class="chat-img"><img :src="item.avatar"/></div>
           <span class="dot-pink">3</span>
